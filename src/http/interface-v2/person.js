@@ -9,7 +9,15 @@ function findAllUser (data) {
 function addUser (user) {
     return minRequest.post('/user/add', user)
 }
+
+/**
+ * 微信登录
+ */
+function wxLogin (apiKey, jsCode) {
+    return minRequest.post('/wx/login', { apiKey, jsCode })
+}
 export default {
     findAllUser,
-    addUser
+    addUser,
+    wxLogin
 }

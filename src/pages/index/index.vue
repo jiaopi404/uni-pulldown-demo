@@ -59,6 +59,7 @@
 		<comp-rich-popup
 			ref="compRichPopup"
 		></comp-rich-popup>
+    <u-card></u-card>
 	</view>
 </template>
 
@@ -75,8 +76,10 @@
         buttonList: [
           { label: 'show popup', action: 'showPopup' },
           { label: 'get users', action: 'getUsers' },
-          { label: 'to form', action: 'toForm' }
-        ]
+          { label: 'to form', action: 'toForm' },
+          { label: 'wx login', action: 'wxLogin' }
+        ],
+        code: ''
 			}
 		},
     computed: {
@@ -123,6 +126,30 @@
       },
       showEvent (event) {
 		    console.log(event)
+      },
+      /**
+       * 微信登录
+       */
+      wxLogin () {
+        uni.login({
+          success: res => {
+            console.log('res is: ', res)
+            this.code = res.code
+            this.login(res.code)
+          }
+        })
+      },
+      /**
+       * 服务端登录
+       */
+      async login (jsCode) {
+        const apiKey = '12345678'
+        try {
+          const res = await this.$api.wxLogin(apiKey, jsCode)
+          console.log('res of wx login', res)
+        } catch (e) {
+          this.$printError('wx login', e)
+        }
       }
 		}
 	}
